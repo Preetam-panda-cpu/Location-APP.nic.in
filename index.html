@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8" />
+    <title>GeoLocation</title>
+    </head>
+    <body>
+        <section id="wrapper">
+        <script type="app.js" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <article>
+            <p><span id= "status">Please wait.. we are trying to locate you.....</span></p>
+        </article>
+        <script>
+            function success(position) {
+            var s = document.querySelector('#status');
+            if (s.className == 'success') {
+                return;
+            }
+            s.innerHTML = "found you!!!  Your latitude is:" + position.coords.latitude +" and longitude is:"+position.coords.longitude;
+            s.className = "success";
+            var mapcanvas = document.createElement('div');
+            mapcanvas.id = "mapcanvas";
+            mapcanvas.style.height = '400px';
+            mapcanvas.style.width = '560px';
+            document.querySelector('article') . appendChild(mapcanvas);
+            var map = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+            var myOptions = {
+                zoom: 15,
+                center: latlang,
+                mapTypeControl: false,
+                navigationControlOptions: { style: google.maps.NavigationControlStyle.SMALL },
+                mapTypeId: google.maps.mapTypeId.RoadMap
+            };
+            var map = new googele.maps.Map(document.getElementById("mapcanvas"), myOption);
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: "You are here!"
+                });
+        }
+        function error(msg) {
+            var s = document.querySelector('#status');
+            s.innerHTML = typeof msg == 'string' ? msg : "failed";
+            s.className = 'fail';
+          // console.log(arguments);
+        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            error('not supported');
+        }
+    </script>
+    </section>
+    </body>
+    </html>
